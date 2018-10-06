@@ -11,26 +11,11 @@ defmodule Pyladies.WordCount do
   """
   @spec count(String.t()) :: map()
   def count(sentence) do
-    sentence
-    |> String.downcase()
-    |> remove_punctuation()
-    |> split_sentence()
-    |> summarize()
-  end
-
-  defp remove_punctuation(string) do
-    String.replace(string, @non_words, " ")
-  end
-
-  defp split_sentence(sentence) do
-    List.flatten(String.split(sentence))
-  end
-
-  defp summarize(words) do
-    Enum.reduce(words, %{}, &add_count/2)
-  end
-
-  defp add_count(word, counts) do
-    Map.update(counts, word, 1, &(&1 + 1))
+    # 1st convert strings to lower case
+    # 2nd remove characters that are not words
+    # 3rd split sentence into individual words
+    # 4th create map with words as keys and number of
+    #     ocurences as values
+    # 5th return map with summary
   end
 end
