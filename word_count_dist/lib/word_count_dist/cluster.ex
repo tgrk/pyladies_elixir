@@ -14,8 +14,8 @@ defmodule WordCountDist.Cluster do
     :rpc.block_call(slave, module, method, args)
   end
 
-  def multi_call(module, method, args) do
-    :rpc.multi_call(module, method, args)
+  def nodes() do
+    Node.list()
   end
 
   def stop() do
@@ -38,14 +38,14 @@ defmodule WordCountDist.Cluster do
       {:ok, _pid} = result = Node.start(:"leader@#{@hostname}", :shortnames)
       result
     catch
-      error_class, error_reason->
-        Logger.error "Unable to setup cluster due to #{error_class} - #{inspect error_reason}!"
+      error_class, error_reason ->
+        Logger.error("Unable to setup cluster due to #{error_class} - #{inspect(error_reason)}!")
 
         # retry with 0.5 s sleep in between retries until maximum
         # limit is reached
         if max_retries > 0 and retry < max_retries do
           :ok = :timer.sleep(500)
-          Logger.warn "Retrying #{retry + 1}..."
+          Logger.warn("Retrying #{retry + 1}...")
           setup(monitor, retry + 1, max_retries)
         else
           {:error, :unable_to_start_cluster}
@@ -54,7 +54,7 @@ defmodule WordCountDist.Cluster do
   end
 
   defp load_paths(slave) do
-    :rpc.block_call(slave, :code, :add_paths, [:code.get_path])
+    :rpc.block_call(slave, :code, :add_paths, [:code.get_path()])
   end
 
   defp inet_loader_args do
@@ -64,5 +64,4 @@ defmodule WordCountDist.Cluster do
   defp master_node do
     "masternode@" <> @hostname
   end
-
 end

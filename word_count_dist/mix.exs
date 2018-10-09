@@ -22,6 +22,9 @@ defmodule WordCountDist.MixProject do
   defp deps do
     [
       {:porcelain, "~> 2.0"},
+      {:jason, "~> 1.1"},
+      {:dialyxir, "~> 0.5.1"},
+      {:credo, "~> 0.10.2"},
       {:observer_cli, "~> 1.4"}
     ]
   end
